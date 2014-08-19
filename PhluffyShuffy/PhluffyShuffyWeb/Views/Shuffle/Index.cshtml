@@ -1,0 +1,90 @@
+﻿@model PhluffyShuffyWeb.Models.ImageModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (!Model.IsReadonly)
+{ 
+    <h1>Add images</h1>
+    <br />
+        
+    using (Html.BeginForm("Upload", "Shuffle", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+    <input type="hidden" name="shuffleId" value="@Model.Id">
+    <input type="file" name="files" multiple />
+    
+    <br />
+    <input type="submit" name="Upload" value="Upload" />
+    }
+}
+
+@if (Model.ImageParts.Any())
+{ 
+    <h1>Images</h1>
+
+    if(!Model.ImageParts.Any())
+    {
+        <p>No image uploaded yet</p>
+    }
+    else
+    {
+        foreach(Uri imageUri in Model.ImageParts)
+        {
+            <img src="@imageUri.ToString()" alt="imagePart" width="150" />
+        }
+    }
+}
+
+@if(Model.ImageParts.Count() > 1)
+{ 
+    if (!Model.IsReadonly)
+    { 
+        <h1>Ready?</h1>
+        using (Html.BeginForm("Create", "Shuffle", FormMethod.Post))
+        {
+            <input type="hidden" name="shuffleId" value="@Model.Id">
+            <input type="submit" name="Create" value="Shuffle" />
+        }
+    }
+    else
+    {
+        <h1>Result</h1>
+        <div id="imageResult">
+            <p>
+                Your image is being created and will show up here once it is done.<br />
+                If you do not want to wait, use @Html.ActionLink("this link", "Shuffle", new { id = Model.Id }) to come back later.
+            </p>
+        </div>
+    }
+}
+else
+{
+    <p>Upload at least 2 images to continue.</p>
+}
+
+@if (Model.IsReadonly)
+{ 
+    <script type="text/javascript">
+        function GetResultImage() {
+            var options = {};
+            options.url = "/Shuffle/ShufflePath?shuffleId=@Model.Id";
+            options.type = "GET";
+            options.dataType = "json";
+            options.contentType = "application/json";
+            options.timeout = 10000;
+            options.success = function (data) {
+                $(imageResult).html('<a href=' + data + '><img width="250" src=' + data + ' /></a>')
+            };
+            options.error = function () {
+                setTimeout(function () {
+                    $.ajax(options)
+                }, 10000);
+            }
+
+            $.ajax(options);
+        }
+
+        GetResultImage();
+    </script>
+}
