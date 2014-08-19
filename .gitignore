@@ -1,6 +1,12 @@
 bin
 obj
+packages
+
+*.user
+*.suo
+*.cscfg
 
 /packages
+/TestResults
 
-/.nuget/NuGet.exe
+NuGet.exe

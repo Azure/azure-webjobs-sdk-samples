@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Azure.Jobs;
+using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage;
 using PhluffyShuffyWebData;
 

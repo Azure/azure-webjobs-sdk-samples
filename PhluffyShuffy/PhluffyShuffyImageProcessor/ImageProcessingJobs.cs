@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using Microsoft.Azure.Jobs;
+using Microsoft.Azure.WebJobs;
 using PhluffyShuffyWebData;
 
 namespace PhluffyShuffyImageProcessor

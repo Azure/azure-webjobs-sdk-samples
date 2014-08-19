@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Configuration;
-using Microsoft.Azure.Jobs;
+using Microsoft.Azure.WebJobs;
 
 namespace MiscOperations
 {

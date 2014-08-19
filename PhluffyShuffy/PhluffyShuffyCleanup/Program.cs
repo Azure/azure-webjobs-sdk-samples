@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Azure.Jobs;
+using Microsoft.Azure.WebJobs;
 
 namespace PhluffyShuffyCleanup
 {

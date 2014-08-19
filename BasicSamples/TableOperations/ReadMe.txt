@@ -8,11 +8,11 @@ functions in this example split strings into words (CountAndSplitInWords) and in
 In order to run the sample, you need to set the Microsoft Azure Storage connection strings in the
 App.config file or environment variables.
 Example (app.config):
-  <add name="AzureJobsStorage" connectionString="DefaultEndpointsProtocol=https;AccountName=NAME;AccountKey=KEY" />
-  <add name="AzureJobsDashboard" connectionString="DefaultEndpointsProtocol=https;AccountName=NAME;AccountKey=KEY" />
+  <add name="AzureWebJobsDashboard" connectionString="DefaultEndpointsProtocol=https;AccountName=NAME;AccountKey=KEY" />
+  <add name="AzureWebJobsStorage" connectionString="DefaultEndpointsProtocol=https;AccountName=NAME;AccountKey=KEY" />
 Example (environment variables):
-  SET AzureJobsStorage=DefaultEndpointsProtocol=https;AccountName=NAME;AccountKey=KEY
-  SET AzureJobsDashboard=DefaultEndpointsProtocol=https;AccountName=NAME;AccountKey=KEY
+  SET AzureWebJobsDashboard=DefaultEndpointsProtocol=https;AccountName=NAME;AccountKey=KEY
+  SET AzureWebJobsStorage=DefaultEndpointsProtocol=https;AccountName=NAME;AccountKey=KEY
 
 For more information about the WebJobs feature of Microsoft Azure Web Sites, 
 see http://go.microsoft.com/fwlink/?LinkId=390226
