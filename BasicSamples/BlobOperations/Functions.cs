@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using BlobOperations;
@@ -11,6 +12,15 @@ namespace BlobOperations
         public string Name { get; set; }
 
         public int Age { get; set; }
+    }
+
+    public class BlobTriggerPosionMessage
+    {
+        public string FunctionId { get; set; }
+        public string BlobType { get; set; }
+        public string ContainerName { get; set; }
+        public string BlobName { get; set; }
+        public string ETag { get; set; }
     }
 
     public class Functions
@@ -28,9 +38,9 @@ namespace BlobOperations
         /// The blob name and extension will be bound from the name pattern
         /// </summary>
         public static async Task BlobTrigger(
-            [BlobTrigger("output/{name}.{ext}")] Stream input, 
-            string name, 
-            string ext, 
+            [BlobTrigger("output/{name}.{ext}")] Stream input,
+            string name,
+            string ext,
             TextWriter log)
         {
             log.WriteLine("Blob name:" + name);
@@ -59,6 +69,17 @@ namespace BlobOperations
         }
 
         /// <summary>
+        /// Demonstrates how to write a queue message when a blob is created or updated
+        /// </summary>
+        public static void BlobToQueue(
+            [BlobTrigger("test/{name}")] string input, 
+            string name,
+            [Queue("newblob")] out string message)
+        {
+            message = name;
+        }
+
+        /// <summary>
         /// Same as "BlobNameFromQueueMessage" but using IBinder 
         /// </summary>
         public static void BlobIBinder([QueueTrigger("persons")] Person persons, IBinder binder)
@@ -73,6 +94,25 @@ namespace BlobOperations
         public static void BlobCancelWrite([QueueTrigger("persons")] Person persons, [Blob("output/ShouldNotBeCreated.txt")] TextWriter output)
         {
             // Do not write anything to "output" and the blob will not be created
+        }
+
+        /// <summary>
+        /// This function will always fail. It is used to demonstrate error handling.
+        /// After a binding or a function fails 5 times, the trigger message is marked as poisoned
+        /// </summary>
+        public static void FailAlways([BlobTrigger("badcontainer/{name}")] string message, TextWriter log)
+        {
+            log.WriteLine("When we reach 5 retries, the message will be moved into the badqueue-poison queue");
+
+            throw new InvalidOperationException("Simulated failure");
+        }
+
+        /// <summary>
+        /// This function will be invoked when a message end up in the poison queue
+        /// </summary>
+        public static void PoisonErrorHandler([QueueTrigger("webjobs-blogtrigger-poison")] BlobTriggerPosionMessage message, TextWriter log)
+        {
+            log.Write("This blob couldn't be processed by the original function: " + message.BlobName);
         }
     }
 }

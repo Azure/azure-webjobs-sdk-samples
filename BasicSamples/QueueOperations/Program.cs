@@ -17,6 +17,7 @@ namespace QueueOperations
             JobHostConfiguration configuration = new JobHostConfiguration();
             configuration.Queues.MaxPollingInterval = TimeSpan.FromSeconds(30);
             configuration.Queues.MaxDequeueCount = 10;
+            configuration.Queues.BatchSize = 1;
 
             JobHost host = new JobHost(configuration);
             host.Start();
