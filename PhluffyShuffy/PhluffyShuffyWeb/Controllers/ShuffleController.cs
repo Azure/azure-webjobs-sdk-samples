@@ -17,7 +17,7 @@ namespace PhluffyShuffyWeb.Controllers
         private readonly IImageStorage storage;
 
         public ShuffleController()
-            : this(new AzureImageStorage(ConfigurationManager.ConnectionStrings["AzureJobsStorage"].ConnectionString))
+            : this(new AzureImageStorage(ConfigurationManager.ConnectionStrings["AzureWebJobsStorage"].ConnectionString))
         {
         }
 

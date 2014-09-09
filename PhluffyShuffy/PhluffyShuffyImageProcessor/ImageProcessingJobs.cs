@@ -16,7 +16,7 @@ namespace PhluffyShuffyImageProcessor
         private readonly IImageStorage storage;
 
         public ImageProcessingJobs()
-            : this(new AzureImageStorage(ConfigurationManager.ConnectionStrings["AzureJobsStorage"].ConnectionString))
+            : this(new AzureImageStorage(ConfigurationManager.ConnectionStrings["AzureWebJobsStorage"].ConnectionString))
         {
         }
 
