@@ -6,6 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{02F0E672-27EF-43ED-903C-0E729BE601F4}</ProjectGuid>
     <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MiscOperations</RootNamespace>
     <AssemblyName>MiscOperations</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -32,10 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Azure.WebJobs">
-      <HintPath>..\packages\Microsoft.Azure.WebJobs.Core.0.5.0-beta\lib\net45\Microsoft.Azure.WebJobs.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Azure.WebJobs.Core.0.6.0-beta\lib\net45\Microsoft.Azure.WebJobs.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.WebJobs.Host">
-      <HintPath>..\packages\Microsoft.Azure.WebJobs.0.5.0-beta\lib\net45\Microsoft.Azure.WebJobs.Host.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Azure.WebJobs.0.6.0-beta\lib\net45\Microsoft.Azure.WebJobs.Host.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -73,6 +74,7 @@
     <Compile Include="ConfigNameResolver.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
