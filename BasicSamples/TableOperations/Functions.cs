@@ -24,7 +24,7 @@ namespace TableOperations
         /// <summary>
         /// Creates the frequency table for the words in the input string and then splits the phrase in words
         /// </summary>
-        public static void CountAndSplitInWords([QueueTrigger("textInput")] string textInput, [Table("words")] CloudTable wordsTable, [Queue("words")] ICollection<string> wordsQueue)
+        public static void CountAndSplitInWords([QueueTrigger("textInput")] string textInput, [Table("words")] CloudTable wordsTable, [Queue("words")] ICollector<string> wordsQueue)
         {
             // Normalize the capitalization
             textInput = textInput.ToLower();
