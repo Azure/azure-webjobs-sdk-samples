@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Generator";
+}
+
+<h2>Random Data Generator</h2>
+
+<p>The generator simulates a device that sends data to the <code>Log</code> endpoint. In practice, this could be a another website, a mobile device or a desktop application.</p>
+
+<div class="row">
+    <div class=" col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Generator configuration</div>
+            <div class="panel-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label>Number of entries</label>
+                        <input type="text" id="fixedCount" class="form-control" placeholder="Leave empty for default" />
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="sendBadData" /> Send corrupted data
+                    </div>
+                </form>
+
+                <button onclick="generateRandomDeviceData()" class="btn btn-default">Send Data</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Sent data</div>
+            <div id="GeneratedData"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/dataGenerator.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function generateRandomDeviceData() {
+            var numberOfEntries = $("#fixedCount").val();
+            var sendBadData = $("#sendBadData").prop("checked");
+
+            var data = sendRandomDeviceData(numberOfEntries, sendBadData);
+            var displayData = "<h3>Device</h3>" + data[0];
+            displayData += "<h3>Data</h3>" + data[1].replace(/\n/g, '<br />');
+            $(GeneratedData).html(displayData);
+        }
+    </script>
+}
