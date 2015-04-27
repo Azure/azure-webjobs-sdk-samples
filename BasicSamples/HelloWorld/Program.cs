@@ -7,8 +7,6 @@ namespace HelloWorld
 {
     class Program
     {
-       
-
         static void Main()
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureWebJobsStorage"].ConnectionString);
