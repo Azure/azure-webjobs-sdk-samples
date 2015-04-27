@@ -1,7 +1,6 @@
 Microsoft Azure WebJobs SDK Samples
 -----------------------------------
 
-This folder contains C# samples for the Microsoft Azure WebJobs SDK.
+This repo contains C# samples for the Microsoft Azure WebJobs SDK.
 
-For more information about the WebJobs feature of Microsoft Azure Web Sites, 
-see http://go.microsoft.com/fwlink/?LinkId=390226
+The WebJobs SDK source is public and can be found here: https://github.com/Azure/azure-webjobs-sdk. For more information about WebJobs and the WebJobs SDK see the [WebJobs SDK wiki](https://github.com/Azure/azure-webjobs-sdk/wiki)
