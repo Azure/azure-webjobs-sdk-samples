@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.IO;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.ServiceBus;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 
@@ -18,10 +19,12 @@ namespace ServiceBus
             _namespaceManager = NamespaceManager.CreateFromConnectionString(_servicesBusConnectionString);
             CreateStartMessage();
 
-            JobHostConfiguration config = new JobHostConfiguration()
+            JobHostConfiguration config = new JobHostConfiguration();
+            ServiceBusConfiguration serviceBusConfig = new ServiceBusConfiguration
             {
-                ServiceBusConnectionString = _servicesBusConnectionString,
+                ConnectionString = _servicesBusConnectionString
             };
+            config.UseServiceBus(serviceBusConfig);
 
             JobHost host = new JobHost(config);
             host.RunAndBlock();
@@ -43,7 +46,7 @@ namespace ServiceBus
                 writer.Flush();
                 stream.Position = 0;
 
-                queueClient.Send(new BrokeredMessage(stream));
+                queueClient.Send(new BrokeredMessage(stream) { ContentType = "text/plain" });
             }
 
             queueClient.Close();

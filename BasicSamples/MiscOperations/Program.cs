@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Configuration;
-using System.IO;
-using System.Threading;
 using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
-using Newtonsoft.Json;
 
 namespace MiscOperations
 {

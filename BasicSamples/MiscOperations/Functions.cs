@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 
 namespace MiscOperations
@@ -26,11 +21,11 @@ namespace MiscOperations
         /// </summary>
         /// <param name="message">A queue message used to trigger the function</param>
         /// <param name="log">A text writer associated with the output log from dashboard.</param>
-        /// <param name="cancelToken">The cancellation token that is signaled when the job must stop</param>
+        /// <param name="cancellationToken">The cancellation token that is signaled when the job must stop</param>
         public static void ShutdownMonitor(
             [QueueTrigger("%ShutdownQueueName%")] string message,
             TextWriter log,
-            CancellationToken cancelToken)
+            CancellationToken cancellationToken)
         {
             // Simulate what happens in Azure WebSites
             // as described here http://blog.amitapple.com/post/2014/05/webjobs-graceful-shutdown/#.U3aIXRFOVaQ 
@@ -46,7 +41,7 @@ namespace MiscOperations
 
             log.WriteLine("From function: Received a message: " + message);
 
-            while (!cancelToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 log.WriteLine("From function: Cancelled: No");
                 Thread.Sleep(2000);

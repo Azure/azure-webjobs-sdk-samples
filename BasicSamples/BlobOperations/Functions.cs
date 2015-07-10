@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using BlobOperations;
 using Microsoft.Azure.WebJobs;
 
 namespace BlobOperations
@@ -10,7 +9,6 @@ namespace BlobOperations
     public class Person
     {
         public string Name { get; set; }
-
         public int Age { get; set; }
     }
 
@@ -26,9 +24,12 @@ namespace BlobOperations
     public class Functions
     {
         /// <summary>
-        /// Reads a blob from the container named "input" and writes it to the container named "output". The blob name ("name") is preserved
+        /// Reads a blob from the container named "input" and writes it to the container
+        /// named "output". The blob name ("name") is preserved
         /// </summary>
-        public static void BlobToBlob([BlobTrigger("input/{name}")] TextReader input, [Blob("output/{name}")] out string output)
+        public static void BlobToBlob(
+            [BlobTrigger("input/{name}")] TextReader input, 
+            [Blob("output/{name}")] out string output)
         {
             output = input.ReadToEnd();
         }
@@ -82,7 +83,9 @@ namespace BlobOperations
         /// <summary>
         /// Same as "BlobNameFromQueueMessage" but using IBinder 
         /// </summary>
-        public static void BlobIBinder([QueueTrigger("persons")] Person persons, IBinder binder)
+        public static void BlobIBinder(
+            [QueueTrigger("persons")] Person persons, 
+            IBinder binder)
         {
             TextWriter writer = binder.Bind<TextWriter>(new BlobAttribute("persons/" + persons.Name + "BlobIBinder"));
             writer.Write("Hello " + persons.Name);
@@ -91,7 +94,9 @@ namespace BlobOperations
         /// <summary>
         /// Not writing anything into the output stream will not lead to blob creation
         /// </summary>
-        public static void BlobCancelWrite([QueueTrigger("persons")] Person persons, [Blob("output/ShouldNotBeCreated.txt")] TextWriter output)
+        public static void BlobCancelWrite(
+            [QueueTrigger("persons")] Person persons, 
+            [Blob("output/ShouldNotBeCreated.txt")] TextWriter output)
         {
             // Do not write anything to "output" and the blob will not be created
         }
@@ -100,7 +105,9 @@ namespace BlobOperations
         /// This function will always fail. It is used to demonstrate error handling.
         /// After a binding or a function fails 5 times, the trigger message is marked as poisoned
         /// </summary>
-        public static void FailAlways([BlobTrigger("badcontainer/{name}")] string message, TextWriter log)
+        public static void FailAlways(
+            [BlobTrigger("badcontainer/{name}")] string message, 
+            TextWriter log)
         {
             log.WriteLine("When we reach 5 retries, the message will be moved into the badqueue-poison queue");
 
@@ -110,7 +117,9 @@ namespace BlobOperations
         /// <summary>
         /// This function will be invoked when a message end up in the poison queue
         /// </summary>
-        public static void PoisonErrorHandler([QueueTrigger("webjobs-blogtrigger-poison")] BlobTriggerPosionMessage message, TextWriter log)
+        public static void PoisonErrorHandler(
+            [QueueTrigger("webjobs-blogtrigger-poison")] BlobTriggerPosionMessage message, 
+            TextWriter log)
         {
             log.Write("This blob couldn't be processed by the original function: " + message.BlobName);
         }

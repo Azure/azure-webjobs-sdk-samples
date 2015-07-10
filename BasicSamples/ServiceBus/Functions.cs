@@ -8,12 +8,11 @@ namespace ServiceBus
     {
         private const string PrefixForAll = "s-";
         private const string QueueNamePrefix = PrefixForAll + "queue-";
-
         private const string TopicName = PrefixForAll + "topic";
 
         public const string StartQueueName = QueueNamePrefix + "start";
 
-        // Passes  service bus message from a queue to another queue using strings
+        // Passes a service bus message from a queue to another queue using strings
         public static void SBQueue2SBQueue(
             [ServiceBusTrigger(StartQueueName)] string start,
             [ServiceBus(QueueNamePrefix + "1")] out string message,
@@ -37,7 +36,10 @@ namespace ServiceBus
             writer.Flush();
             stream.Position = 0;
 
-            output = new BrokeredMessage(stream);
+            output = new BrokeredMessage(stream)
+            {
+                ContentType = "text/plain"
+            };
 
             log.WriteLine("SBQueue2SBTopic: " + message);
         }
@@ -60,6 +62,17 @@ namespace ServiceBus
             {
                 log.WriteLine("SBTopicListener2" + reader.ReadToEnd());
             }
+        }
+
+        /// Demonstrates how AccessRights can be explicitly specified for queues/topics that
+        /// you don't have Manage rights too. If the queues/topics this function is operating on
+        /// don't already exist, an exception will be thrown, whereas the default behavior
+        /// assumes Manage and will attempt to create queues/topics if they don't exist.
+        public static void LimitedAccessExample(
+            [ServiceBusTrigger(StartQueueName, AccessRights.Listen)] string start,
+            [ServiceBus(QueueNamePrefix + "1", AccessRights.Send)] out string message)
+        {
+            message = start + "-SBQueue2SBQueue";
         }
     }
 }

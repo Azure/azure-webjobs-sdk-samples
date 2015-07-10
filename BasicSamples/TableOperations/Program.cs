@@ -32,7 +32,7 @@ namespace TableOperations
             CloudQueue queue = queueClient.GetQueueReference("textinput");
             queue.CreateIfNotExists();
 
-            queue.AddMessage(new CloudQueueMessage("Hello hello world"));
+            queue.AddMessage(new CloudQueueMessage("Hello world!"));
         }
     }
 }

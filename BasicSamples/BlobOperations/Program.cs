@@ -1,7 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -36,8 +33,8 @@ namespace BlobOperations
 
             Person person = new Person()
             {
-                Name = "John",
-                Age = 42
+                Name = "Mathew",
+                Age = 39
             };
 
             queue.AddMessage(new CloudQueueMessage(JsonConvert.SerializeObject(person)));
