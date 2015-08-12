@@ -10,7 +10,6 @@ namespace ServiceBus
     class Program
     {
         private static string _servicesBusConnectionString;
-
         private static NamespaceManager _namespaceManager;
 
         public static void Main()

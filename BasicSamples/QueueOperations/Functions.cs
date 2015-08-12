@@ -7,7 +7,6 @@ namespace QueueOperations
     public class Order
     {
         public string Name { get; set; }
-
         public string OrderId { get; set; }
     }
 
@@ -70,7 +69,7 @@ namespace QueueOperations
         }
 
         /// <summary>
-        /// This function will be invoked when a message end up in the poison queue
+        /// This function will be invoked when a message is put in the poison queue
         /// </summary>
         public static void BindToPoisonQueue([QueueTrigger("badqueue-poison")] string message, TextWriter log)
         {
