@@ -21,20 +21,17 @@ namespace MiscOperations
             _config = config;
         }
 
-        public override NamespaceManager NamespaceManager
+        public override NamespaceManager CreateNamespaceManager(string connectionStringName = null)
         {
-            get
-            {
-                // you could return your own NamespaceManager here, which would be used
-                // globally
-                return base.NamespaceManager;
-            }
+            // you could return your own NamespaceManager here, which would be used
+            // globally
+            return base.CreateNamespaceManager(connectionStringName);
         }
 
-        public override Task<MessagingFactory> CreateMessagingFactoryAsync(string entityPath)
+        public override Task<MessagingFactory> CreateMessagingFactoryAsync(string entityPath, string connectionStringName = null)
         {
             // you could return a customized (or new) MessagingFactory here per entity
-            return base.CreateMessagingFactoryAsync(entityPath);
+            return base.CreateMessagingFactoryAsync(entityPath, connectionStringName);
         }
 
         public override MessageProcessor CreateMessageProcessor(string entityPath)
