@@ -51,7 +51,7 @@ namespace MiscOperations
 
             // Demonstrates how a custom TraceWriter can be plugged into the
             // host to capture all logging/traces.
-            config.Tracing.Trace = new CustomTraceWriter(TraceLevel.Info);
+            config.Tracing.Tracers.Add(new CustomTraceWriter(TraceLevel.Info));
 
             ServiceBusConfiguration serviceBusConfig = new ServiceBusConfiguration
             {

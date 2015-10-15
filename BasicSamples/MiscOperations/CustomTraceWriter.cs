@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.Azure.WebJobs.Host;
 
 namespace MiscOperations
@@ -15,7 +14,7 @@ namespace MiscOperations
         {
         }
 
-        public override void Trace(TraceLevel level, string source, string message, Exception ex)
+        public override void Trace(TraceEvent traceEvent)
         {
             // handle trace messages here
         }
