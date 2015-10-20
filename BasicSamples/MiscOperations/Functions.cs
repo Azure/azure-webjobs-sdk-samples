@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
@@ -88,6 +89,22 @@ namespace MiscOperations
             await Task.Delay(10 * 1000);
 
             trace.Info("Singleton method completed");
+        }
+
+        /// <summary>
+        /// Demonstrates use of <see cref="DisableAttribute"/> to allow individual jobs to be
+        /// dynamically/temporarily disabled via applicaiton settings. In this example, if the
+        /// app setting name "Disable_TestJob" has a value of "1" or "True" (case insensitive),
+        /// the job will not run. You can see that the function is disabled in the Console output -
+        /// you should see an entry "Function 'Functions.TestJob' is disabled".
+        /// 
+        /// The attribute can be declared hierarchically at the Parameter/Method/Class levels.
+        /// The setting name can also contain binding parameters.
+        /// </summary>
+        [Disable("Disable_TestJob")]
+        public static void TestJob([QueueTrigger("testqueue2")] string message)
+        {
+            Console.WriteLine("DisabledJob Invoked!");
         }
     }
 }

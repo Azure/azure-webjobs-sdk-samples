@@ -1,6 +1,6 @@
-﻿using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Azure.WebJobs.ServiceBus;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
@@ -14,7 +14,7 @@ namespace ServiceBus
 
         public static void Main()
         {
-            _servicesBusConnectionString = ConfigurationManager.ConnectionStrings["AzureWebJobsServiceBus"].ConnectionString;
+            _servicesBusConnectionString = AmbientConnectionStringProvider.Instance.GetConnectionString(ConnectionStringNames.ServiceBus);
             _namespaceManager = NamespaceManager.CreateFromConnectionString(_servicesBusConnectionString);
             CreateStartMessage();
 

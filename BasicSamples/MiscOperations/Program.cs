@@ -28,7 +28,7 @@ namespace MiscOperations
             // This test message kicks off the sample on how to perform graceful
             // shutdown. It will shut down the host, so if you want to run other
             // samples, comment this out.
-            CreateShutdownTestMessage();
+            //CreateShutdownTestMessage();
 
             JobHostConfiguration config = new JobHostConfiguration()
             {
@@ -88,13 +88,14 @@ namespace MiscOperations
 
         private static void CreateServiceBusQueues()
         {
-            _servicesBusConnectionString = ConfigurationManager.ConnectionStrings["AzureWebJobsServiceBus"].ConnectionString;
+            _servicesBusConnectionString = AmbientConnectionStringProvider.Instance.GetConnectionString(ConnectionStringNames.ServiceBus);
             _namespaceManager = NamespaceManager.CreateFromConnectionString(_servicesBusConnectionString);
         }
 
         private static void CreateTestQueues()
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureWebJobsStorage"].ConnectionString);
+            string connectionString = AmbientConnectionStringProvider.Instance.GetConnectionString(ConnectionStringNames.Storage);
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
 
             CloudQueue queue = queueClient.GetQueueReference("singleton-test");
@@ -102,6 +103,9 @@ namespace MiscOperations
 
             _testQueue = queueClient.GetQueueReference("testqueue");
             _testQueue.CreateIfNotExists();
+
+            CloudQueue testQueue2 = queueClient.GetQueueReference("testqueue2");
+            testQueue2.CreateIfNotExists();
         }
 
         private static void CreateShutdownTestMessage()
