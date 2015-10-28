@@ -96,7 +96,11 @@ namespace MiscOperations
         /// dynamically/temporarily disabled via applicaiton settings. In this example, if the
         /// app setting name "Disable_TestJob" has a value of "1" or "True" (case insensitive),
         /// the job will not run. You can see that the function is disabled in the Console output -
-        /// you should see an entry "Function 'Functions.TestJob' is disabled".
+        /// you should see an entry "Function 'Functions.TestJob' is disabled". 
+        /// 
+        /// When you change these setting values in the Azure Portal, it will cause the WebJob to
+        /// be restarted, picking up the new setting. This gives you a simple toggle UI allowing
+        /// you to enable/disable functions as needed. 
         /// 
         /// The attribute can be declared hierarchically at the Parameter/Method/Class levels.
         /// The setting name can also contain binding parameters.
@@ -105,6 +109,30 @@ namespace MiscOperations
         public static void TestJob([QueueTrigger("testqueue2")] string message)
         {
             Console.WriteLine("DisabledJob Invoked!");
+        }
+
+        /// <summary>
+        /// Demonstrates use of <see cref="TimeoutAttribute"/> for signalling cancellation
+        /// of job functions when a timeout expires. In the below example, the function would
+        /// run for 1 day without the timeout. However, the timeout will cause the
+        /// <see cref="CancellationToken"/> to be cancelled after 15 seconds.
+        /// </summary>
+        /// <remarks>
+        /// In addition to class/method level attributes, you can also specify a global
+        /// timeout via <see cref="JobHostConfiguration.FunctionTimeout"/>. Class/method
+        /// level timeouts override the global timeout.
+        /// </remarks>
+        [Timeout("00:00:15")]
+        public static async Task TimeoutJob(
+            [QueueTrigger("testqueue2")] string message,
+            CancellationToken token,
+            TextWriter log)
+        {
+            await log.WriteLineAsync("Job starting");
+
+            await Task.Delay(TimeSpan.FromDays(1), token);
+
+            await log.WriteLineAsync("Job completed");
         }
     }
 }
