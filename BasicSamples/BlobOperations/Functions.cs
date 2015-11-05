@@ -118,7 +118,7 @@ namespace BlobOperations
         /// This function will be invoked when a message end up in the poison queue
         /// </summary>
         public static void PoisonErrorHandler(
-            [QueueTrigger("webjobs-blogtrigger-poison")] BlobTriggerPosionMessage message, 
+            [QueueTrigger("webjobs-blobtrigger-poison")] BlobTriggerPosionMessage message, 
             TextWriter log)
         {
             log.Write("This blob couldn't be processed by the original function: " + message.BlobName);
