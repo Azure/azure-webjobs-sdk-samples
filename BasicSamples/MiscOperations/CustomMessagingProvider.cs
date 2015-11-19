@@ -28,10 +28,10 @@ namespace MiscOperations
             return base.CreateNamespaceManager(connectionStringName);
         }
 
-        public override Task<MessagingFactory> CreateMessagingFactoryAsync(string entityPath, string connectionStringName = null)
+        public override MessagingFactory CreateMessagingFactory(string entityPath, string connectionStringName = null)
         {
             // you could return a customized (or new) MessagingFactory here per entity
-            return base.CreateMessagingFactoryAsync(entityPath, connectionStringName);
+            return base.CreateMessagingFactory(entityPath, connectionStringName);
         }
 
         public override MessageProcessor CreateMessageProcessor(string entityPath)
