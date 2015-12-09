@@ -134,5 +134,27 @@ namespace MiscOperations
 
             await log.WriteLineAsync("Job completed");
         }
+
+        /// Demonstrates use of <see cref="StorageAccountAttribute"/> for operating on different
+        /// Storage accounts in the same function. In this example, we're triggering on a queue
+        /// in the primary account, and writing to a queue in the secondary account.
+        /// <see cref="StorageAccountAttribute"/> can be applied at the class/method/parameter level.
+        public static void MultipleAccounts(
+            [QueueTrigger("input")] string input,
+            [Queue("output"), StorageAccount("SecondaryStorage")] out string output)
+        {
+            output = input;
+        }
+
+        /// Demonstrates use of <see cref="ServiceBusAccountAttribute"/> for operating on different
+        /// ServiceBus accounts in the same function. In this example, we're triggering on a queue
+        /// in a secondary account, and writing to a topic in our primary account.
+        /// <see cref="ServiceBusAccountAttribute"/> can be applied at the class/method/parameter level.
+        public static void ServiceBusMultipleAccounts(
+            [ServiceBusTrigger("input"), ServiceBusAccount("ServiceBusSecondary")] string input,
+            [ServiceBus("output")] out string output)
+        {
+            output = input;
+        }
     }
 }
