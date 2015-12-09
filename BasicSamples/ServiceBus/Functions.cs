@@ -74,5 +74,16 @@ namespace ServiceBus
         {
             message = start + "-SBQueue2SBQueue";
         }
+
+        //Reads a message from one service bus namespace and sends to another. Note that both parameters 
+        //has to have the attribute ServiceBusAccount to make this work.
+        //ServiceBus corresponds to connection string named AzureWebJobsServiceBus
+        //SecondServiceBus corresponds to connection string named AzureWebJobsSecondServiceBus
+        public static void MultipleServiceBusNamespaces(
+            [ServiceBusTrigger(StartQueueName), ServiceBusAccount("ServiceBus")] string start,
+            [ServiceBus(QueueNamePrefix + "1"), ServiceBusAccount("SecondServiceBus")] out string message)
+        {
+            message = start + "-SBQueue2SBQueue";
+        }
     }
 }
